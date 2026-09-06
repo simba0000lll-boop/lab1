@@ -1,0 +1,138 @@
+Docker & Maven – Commands and Dockerfiles
+1. Java Maven Application
+Dockerfile
+FROM eclipse-temurin:17-jdk
+
+WORKDIR /app
+
+COPY target/lab1war-0.0.1-SNAPSHOT.jar app.jar
+
+ENTRYPOINT ["java", "-jar", "app.jar"]
+Maven pom.xml Plugin
+<plugins>
+    <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.4.2</version>
+
+        <configuration>
+            <archive>
+                <manifest>
+                    <mainClass>com.example.App</mainClass>
+                </manifest>
+            </archive>
+        </configuration>
+    </plugin>
+</plugins>
+2. Web Maven Application
+Dockerfile
+FROM tomcat:9.0-jdk17-temurin
+
+COPY target/lab1war.war /usr/local/tomcat/webapps/lab1war.war
+3. Custom Redis Image
+Create Project Folder
+mkdir C:\DockerProjects\Redis
+cd C:\DockerProjects\Redis
+Create Dockerfile
+echo FROM redis:latest > Dockerfile
+echo CMD ["redis-server"] >> Dockerfile
+Dockerfile Content
+FROM redis:latest
+
+CMD ["redis-server"]
+Docker Commands – Step by Step
+Build the Image
+docker build -t redisnew .
+Run the Container
+docker run --name myredisnew -d redisnew
+Check Running Containers
+docker ps
+Stop the Container
+docker stop myredisnew
+Login to Docker Hub
+docker login
+Check All Containers
+docker ps -a
+Commit Container as Docker Hub Image
+docker commit <CONTAINER_ID> sanjuktha000l/redis1
+Check Images
+docker images
+Push Image to Docker Hub
+docker push sanjuktha000l/redis1
+Pull Image from Docker Hub
+docker pull sanjuktha000l/redis1
+Run Pulled Image
+docker run --name myredis -d sanjuktha000l/redis1
+Access Redis CLI
+docker exec -it myredis redis-cli
+4. General Dockerfile Structure
+# 1. Choose a base image
+FROM ubuntu:latest
+
+# 2. Set the working directory
+WORKDIR /app
+
+# 3. Copy files into the image
+COPY . .
+
+# 4. Install dependencies
+RUN apt-get update && apt-get install -y <package>
+
+# 5. Set environment variables (optional)
+ENV PORT=8080
+
+# 6. Document the port
+EXPOSE 8080
+
+# 7. Command to run when the container starts
+CMD ["<command>"]
+Main Dockerfile Instructions
+•	FROM → Base image
+•	WORKDIR → Working directory
+•	COPY → Copy files
+•	RUN → Execute during image build
+•	ENV → Environment variable
+•	EXPOSE → Document container port
+•	CMD → Default command at container startup
+•	ENTRYPOINT → Main executable/startup command
+5. Python Application
+Dockerfile
+FROM python:3.12
+
+WORKDIR /app
+
+COPY requirements.txt .
+
+RUN pip install -r requirements.txt
+
+COPY . .
+
+EXPOSE 5000
+
+CMD ["python", "app.py"]
+Python Project Structure
+Python Project
+│
+├── Dockerfile
+├── requirements.txt
+└── app.py
+Quick Revision
+Java JAR
+FROM eclipse-temurin:17-jdk
+WORKDIR /app
+COPY target/lab1war-0.0.1-SNAPSHOT.jar app.jar
+ENTRYPOINT ["java", "-jar", "app.jar"]
+Java Web/WAR
+FROM tomcat:9.0-jdk17-temurin
+COPY target/lab1war.war /usr/local/tomcat/webapps/lab1war.war
+Redis
+FROM redis:latest
+CMD ["redis-server"]
+Python
+FROM python:3.12
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+COPY . .
+EXPOSE 5000
+CMD ["python", "app.py"]

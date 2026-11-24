@@ -40,6 +40,7 @@ docker rm webapp-ext
 docker rmi sanjuktha000l/webapp-ext
 
 docker pull sanjuktha000l/webapp-ext:latest
+docker run -d --name webapp-container -p 8095:8080 sanjuktha000l/webapp-ext:latest 
 
 3. Custom Redis Image
 Create Project Folder

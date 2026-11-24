@@ -8,6 +8,7 @@ WORKDIR /app
 COPY target/lab1war-0.0.1-SNAPSHOT.jar app.jar
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
+
 Maven pom.xml Plugin
 <plugins>
     <plugin>
@@ -24,6 +25,9 @@ Maven pom.xml Plugin
         </configuration>
     </plugin>
 </plugins>
+docker build -t javaproject-ext .
+docker run -rm javaaproject-ext
+
 2. Web Maven Application
 Dockerfile
 FROM tomcat:9.0-jdk17-temurin

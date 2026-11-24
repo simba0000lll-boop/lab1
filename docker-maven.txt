@@ -28,7 +28,19 @@ Maven pom.xml Plugin
 Dockerfile
 FROM tomcat:9.0-jdk17-temurin
 
-COPY target/lab1war.war /usr/local/tomcat/webapps/lab1war.war
+COPY target/webapp-ext-1.0-shapshot.war /usr/local/tomcat/webapps/app.war
+docker build -t webapp-ext .
+docker run -d --name webapp-ext -p 8095:8080 webapp-ext
+
+docker tag webapp-ext sanjuktha000l/webapp-ext
+docker push sanjuktha000l/webapp-ext
+
+docker stop webapp-ext
+docker rm webapp-ext
+docker rmi sanjuktha000l/webapp-ext
+
+docker pull sanjuktha000l/webapp-ext:latest
+
 3. Custom Redis Image
 Create Project Folder
 mkdir C:\DockerProjects\Redis
